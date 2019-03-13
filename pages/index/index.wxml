@@ -1,0 +1,40 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <!-- <button class='login_but' open-type="getUserInfo" bindgetuserinfo="getUserInfo">点击授权登录</button> -->
+    <button class='login_but' wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class='lottery'>
+    <view class='lot'>
+      <text style='width:{{ lotWidth}}rpx;height:{{ lotHeight}}rpx;margin-top:{{ lotMarginTop}}rpx;margin-left:{{ lotMarginLeft}}rpx;line-height:{{ lotLineHeight}}rpx' bindtap='{{clickLuck}}'>立即抽奖</text>
+    </view>
+    <view class='lottery_prize'>
+        <view style='width:{{ listWidth}}rpx;height:{{ listHeight}}rpx;left:{{ viewLeft[index].left}};right:{{ viewRight[index].right}};top:{{ viewTop[index].top}};bottom:{{ viewBottom[index].bottom}}' wx:for="{{picArray}}" wx:for-index="index" wx:for-item="itemName" wx:key="itemName.id" class="lottery-unit lottery-unit-{{index}} {{clickCss[index]}}" catchtap="imageInfo" data-src='{{itemName.pic}}' data-id='{{itemName.id}}' data-picInfo='{{itemName.picInfo}}'>
+          <image src="{{itemName.pic}}"></image><p class="lottery_pitch"></p>
+        </view>
+    </view>
+  </view>
+  <!-- 中奖列表 -->
+  <view class='lottery_list'>
+    <text class='lottery_list_title'>获奖名单</text>
+    <view class='lottery_list_cont'>
+      <text class='lottery_list_cont_name'>姓名</text>
+      <text class='lottery_list_cont_info'>中奖信息</text>
+    </view>
+    <!-- 滚动列表 -->
+    <swiper class="swiper_list" vertical="true" autoplay="true" circular="true" interval="1500" display-multiple-items='5'>
+      <block wx:for="{{lotteryInfo}}" wx:for-index="idx" wx:for-item="itemName" wx:key="itemName.id">
+        <swiper-item>
+          <view class='lottery_list_cont'>
+            <text class='lottery_list_cont_name'>{{itemName.name}}</text>
+            <text class='lottery_list_cont_info'>{{itemName.info}}</text>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>
